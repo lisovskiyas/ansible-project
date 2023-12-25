@@ -8,20 +8,17 @@
     - name: Установка дополнительных пакетов
       apt:
         name:
-#              - apt-transport-https
-          - ca-certificate
+          - ca-certificates
           - curl
           - gnupg
-#              - lsb-release
         update-cache: yes
         cache_valid_time: 86400
     - name: Добавление ключа Docker
       apt_key:
         url: https://download.docker.com/linux/ubuntu/gpg
         state: present
-
     - name: Установка стабильного репозитория
-      apt_repistory: 
+      apt_repository:
         repo: > # > означает ввод в одну строку
           deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg]
           https://download.docker.com/linux/ubuntu
@@ -39,7 +36,7 @@
           - docker-buildx-plugin
           - docker-compose-plugin
         update-cache: yes
-        
+
     - name: Проверка, что Docker установлен и перезагружен
       service:
         name: docker
@@ -50,10 +47,10 @@
   block:
     - name: Добавляем пользователя в группу Docker
       ansible.builtin.user:
-        name: {{ ansible_user }}
+        name: vagrant
         groups: docker
         append: yes
 
-    - name: Перезагрузка
-      ansible.builtin.systemd_service:
-        name: docker
+    - name: Перезагружаем сервер
+      ansible.builtin.reboot:
+        msg: "Rebooting machine in 5 seconds"

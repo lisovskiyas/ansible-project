@@ -1,5 +1,6 @@
 ---
 - name: All configs
-  hosts: clusters
+  hosts: vagrant
+  become: yes
   roles:
     - preconfig
