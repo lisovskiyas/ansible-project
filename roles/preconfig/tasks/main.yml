@@ -1,0 +1,59 @@
+- name: Установка Docker
+  block:
+    - name: Добавляем universe
+      apt_repository:
+        repo: "deb http://archive.ubuntu.com/ubuntu/ {{ ansible_distribution_release }} universe"
+        state: present
+
+    - name: Установка дополнительных пакетов
+      apt:
+        name:
+#              - apt-transport-https
+          - ca-certificate
+          - curl
+          - gnupg
+#              - lsb-release
+        update-cache: yes
+        cache_valid_time: 86400
+    - name: Добавление ключа Docker
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Установка стабильного репозитория
+      apt_repistory: 
+        repo: > # > означает ввод в одну строку
+          deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg]
+          https://download.docker.com/linux/ubuntu
+          {{ ansible_distribution_release }} stable
+        state: present
+        update-cache: yes
+        filename: docker
+
+    - name: Установка Docker-ce
+      apt:
+        name:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+          - docker-buildx-plugin
+          - docker-compose-plugin
+        update-cache: yes
+        
+    - name: Проверка, что Docker установлен и перезагружен
+      service:
+        name: docker
+        state: restarted
+        enabled: yes
+
+- name: Завершение установки
+  block:
+    - name: Добавляем пользователя в группу Docker
+      ansible.builtin.user:
+        name: {{ ansible_user_id }}
+        groups: docker
+        append: yes
+
+    - name: Перезагрузка
+      ansible.builtin.systemd_service:
+        name: docker
