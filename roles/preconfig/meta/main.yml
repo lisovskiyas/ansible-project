@@ -10,4 +10,4 @@ galaxy_info:
         - all
 
 #dependencies: #указывает зависимости для порядка исполнения
-  - role: deploy
+#  - role: deploy
