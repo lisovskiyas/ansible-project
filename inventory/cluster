@@ -9,3 +9,14 @@ server5 ansible_host=172.20.10.10 ansible_user=vagrant
 server1
 server2
 server5
+
+[deploy]
+server1
+
+[managers]
+server2
+server3
+
+[workers]
+server4
+server5

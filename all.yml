@@ -1,7 +1,22 @@
 ---
-- name: All configs
-  hosts: vagrant
+- name: Deploy server
+  hosts: deploy
   become: yes
   roles:
     - preconfig
-    - deploy
+#    - deploy
+#    - swarm_init
+
+- name: Manager
+  hosts: managers
+  become: yes
+  roles:
+#    - preconfig
+#    - swarm_join
+
+- name: Worker
+  hosts: workers
+  become: yes
+  roles:
+    - preconfig
+ #   - swarm_join

@@ -4,6 +4,7 @@
       apt_repository:
         repo: "deb http://archive.ubuntu.com/ubuntu/ {{ ansible_distribution_release }} universe"
         state: present
+      tags: universe
 
     - name: Установка дополнительных пакетов
       apt:
@@ -11,6 +12,7 @@
           - ca-certificates
           - curl
           - gnupg
+          - python3-pip
         update-cache: yes
         cache_valid_time: 86400
     - name: Добавление ключа Docker
@@ -42,6 +44,12 @@
         name: docker
         state: restarted
         enabled: yes
+
+- name: Настройка дополнительных пакетов python
+  block:
+    - name: Установка pip пакетов
+      pip:
+        name: docker
 
 - name: Завершение установки
   block:

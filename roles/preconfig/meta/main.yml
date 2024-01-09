@@ -9,5 +9,5 @@ galaxy_info:
       version:
         - all
 
-dependencies: #указывает зависимости для порядка исполнения
+#dependencies: #указывает зависимости для порядка исполнения
   - role: deploy
