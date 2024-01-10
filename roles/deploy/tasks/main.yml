@@ -1,7 +1,7 @@
 ---
 - name: циклы
   debug:
-    msg1: "{{ item }}"
+    msg: "{{ item }}"
   loop:
     - a
     - b
