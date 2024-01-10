@@ -1,3 +1,7 @@
 ---
-- name: demo
-  command: echo "DEMO"
+- name: циклы
+  debug:
+    msg1: "{{ item }}"
+  loop:
+    - a
+    - b

@@ -3,20 +3,24 @@
   hosts: deploy
   become: yes
   roles:
-    - preconfig
-#    - deploy
+    - role: preconfig
+      tags: preconfig
+    - role: deploy
+      tags: deploy
 #    - swarm_init
 
 - name: Manager
   hosts: managers
   become: yes
   roles:
-#    - preconfig
+    - role: preconfig
+      tags: preconfig
 #    - swarm_join
 
 - name: Worker
   hosts: workers
   become: yes
   roles:
-    - preconfig
+    - role: preconfig
+      tags: preconfig
  #   - swarm_join
